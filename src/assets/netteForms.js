@@ -315,19 +315,22 @@
 			return;
 		}
 
-		var style = document.createElement('style');
-		style.innerText = '.netteFormsModal { text-align: center; margin: auto; border: 2px solid black; padding: 1rem } .netteFormsModal button { padding: .1em 2em }';
+		var icon = document.createElement('i');
+		icon.classList.add('fa-solid', 'fa-triangle-exclamation');
+
+		var messageElement = document.createElement('span');
+		messageElement.innerText = message;
 
 		var button = document.createElement('button');
 		button.innerText = 'OK';
+		button.classList.add('btn-md', 'btn-default');
 		button.onclick = function () {
 			dialog.remove();
 			onclose();
 		};
 
-		dialog.setAttribute('class', 'netteFormsModal');
-		dialog.innerText = message + '\n\n';
-		dialog.append(style, button);
+		dialog.setAttribute('class', 'nette-forms-modal');
+		dialog.append(icon, messageElement, button);
 		document.body.append(dialog);
 		dialog.showModal();
 	};
