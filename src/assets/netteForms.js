@@ -294,13 +294,46 @@
 		}
 
 		if (messages.length) {
-			Nette.showModal(messages.join('\n'), function () {
+			Nette.showModal(Nette.formatErrorMessage(messages), function () {
 				if (focusElem) {
 					focusElem.focus();
 				}
 			});
 		}
 	};
+
+	/**
+	 * Formats error messages into one sentence.
+	 */
+
+	Nette.formatErrorMessage = function (messages) {
+		var formattedMessage = '';
+
+		for(let i = 0; i < messages.length; i++) {
+			formattedMessage += `<b>${messages[i]}</b>`;
+			switch (messages.length - i) {
+				case 1:
+					formattedMessage += ' ';
+					break;
+				case 2:
+					formattedMessage += ' & ';
+					break;
+				default:
+					formattedMessage += ', ';
+					break;
+			}
+		}
+
+		if(messages.length > 1 ) {
+			formattedMessage += 'are';
+		} else {
+			formattedMessage += 'is';
+		}
+
+		formattedMessage += ' required!';
+
+		return formattedMessage;
+	}
 
 
 	/**
@@ -319,7 +352,7 @@
 		icon.classList.add('fa-solid', 'fa-triangle-exclamation');
 
 		var messageElement = document.createElement('span');
-		messageElement.innerText = message;
+		messageElement.innerHTML = message;
 
 		var button = document.createElement('button');
 		button.innerText = 'OK';
